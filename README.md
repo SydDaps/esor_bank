@@ -8,40 +8,45 @@
 - customers should be able to see the current amount in their account and records of all their transactions 
 ---
 ## Programming logic
-Teller class data : </br>
-&ensp; &ensp; &ensp; &ensp; &ensp; &ensp; &ensp; &ensp;- name  </br>
+User class data : </br>
+&ensp; &ensp; &ensp; &ensp; &ensp; &ensp; &ensp; &ensp;- firstName  </br>
+&ensp; &ensp; &ensp; &ensp; &ensp; &ensp; &ensp; &ensp;- lastName  </br>
 &ensp; &ensp; &ensp; &ensp; &ensp; &ensp; &ensp; &ensp;- age  </br>
 &ensp; &ensp; &ensp; &ensp; &ensp; &ensp; &ensp; &ensp;- phoneNumber  </br>
-                     
-Customer class data :  </br>
-&ensp; &ensp; &ensp; &ensp; &ensp; &ensp; &ensp; &ensp; - name </br>
-&ensp; &ensp; &ensp; &ensp; &ensp; &ensp; &ensp; &ensp; - age </br>
-&ensp; &ensp; &ensp; &ensp; &ensp; &ensp; &ensp; &ensp; - phoneNumber </br>
-&ensp; &ensp; &ensp; &ensp; &ensp; &ensp; &ensp; &ensp; - accountBalance </br> 
-&ensp; &ensp; &ensp; &ensp; methods : </br>
-&ensp; &ensp; &ensp; &ensp; &ensp; &ensp; &ensp; &ensp; - credit { add funds } </br>
-&ensp; &ensp; &ensp; &ensp; &ensp; &ensp; &ensp; &ensp; - debit  { subtract funds } </br>
-                 
-Transaction class data : </br>
-&ensp; &ensp; &ensp; &ensp; &ensp; &ensp; &ensp; &ensp; -type { debit / credit } </br>
-&ensp; &ensp; &ensp; &ensp; &ensp; &ensp; &ensp; &ensp; -teller { teller performing transaction } </br>
-&ensp; &ensp; &ensp; &ensp; &ensp; &ensp; &ensp; &ensp; -customer { customer performing transaction } </br>
-&ensp; &ensp; &ensp; &ensp; &ensp; &ensp; &ensp; &ensp; -amount </br>
-&ensp; &ensp; &ensp; &ensp; &ensp; &ensp; &ensp; &ensp; -message </br>
+&ensp; &ensp; &ensp; &ensp; &ensp; &ensp; &ensp; &ensp;- address  </br>
+
+
+Teller class data (inherit user data ): </br>
+&ensp; &ensp; &ensp; &ensp; &ensp; &ensp; &ensp; &ensp;- address  </br>
+
+Acount class data: </br>
+&ensp; &ensp; &ensp; &ensp; &ensp; &ensp; &ensp; &ensp;- type {saving.....}  </br>
+&ensp; &ensp; &ensp; &ensp; &ensp; &ensp; &ensp; &ensp;- balance </br>
+&ensp; &ensp; &ensp; &ensp; &ensp; &ensp; &ensp; &ensp;- transactions  { array of all transactions } </br>
+
 &ensp; &ensp; &ensp; &ensp; methods : </br>
 &ensp; &ensp; &ensp; &ensp; &ensp; &ensp; &ensp; &ensp; -doCrediting { credits account and returns message } </br>
 &ensp; &ensp; &ensp; &ensp; &ensp; &ensp; &ensp; &ensp; -doDebiting { debits account and returns message } </br>
+
+                    
+Customer class data(inherit user data ):  </br>
+&ensp; &ensp; &ensp; &ensp; &ensp; &ensp; &ensp; &ensp; - accounts { hash of all customer account types as keys and the actual account as the key  } </br>
+
+     
+Transaction class data : </br>
+&ensp; &ensp; &ensp; &ensp; &ensp; &ensp; &ensp; &ensp; -type { debit / credit  && on what account} </br>
+&ensp; &ensp; &ensp; &ensp; &ensp; &ensp; &ensp; &ensp; -teller { teller performing transaction } </br>
+&ensp; &ensp; &ensp; &ensp; &ensp; &ensp; &ensp; &ensp; -customer { customer performing transaction } </br>
+&ensp; &ensp; &ensp; &ensp; &ensp; &ensp; &ensp; &ensp; -amount </br>
+&ensp; &ensp; &ensp; &ensp; methods : </br>
+&ensp; &ensp; &ensp; &ensp; &ensp; &ensp; &ensp; &ensp; -genrateMessage { credits account and returns message } </br>
+
                          
 Vault class data : </br>
+&ensp; &ensp; &ensp; &ensp; &ensp; &ensp; &ensp; &ensp; -branch </br>
 &ensp; &ensp; &ensp; &ensp; &ensp; &ensp; &ensp; &ensp; -totalFunds </br>
 &ensp; &ensp; &ensp; &ensp; &ensp; &ensp; &ensp; &ensp; -records { keeps all transaction of type Transactions } </br>
 &ensp; &ensp; &ensp; &ensp; methods : </br>
 &ensp; &ensp; &ensp; &ensp; &ensp; &ensp; &ensp; &ensp; -addFunds { after any credit transaction } </br>
 &ensp; &ensp; &ensp; &ensp; &ensp; &ensp; &ensp; &ensp; -subFunds { after debit transacrion } </br>
                      
-## logic for cli in ruby
- - create function to create new Tellers, and Customers </br>
- &ensp; &ensp; &ensp; &ensp; &ensp; &ensp; - take all neccsary inputs </br>
- &ensp; &ensp; &ensp; &ensp; &ensp; &ensp; - validate inputs if invalid re render form  </br>
- &ensp; &ensp; &ensp; &ensp; &ensp; &ensp; -  valid data can be used to initialize 
- 
