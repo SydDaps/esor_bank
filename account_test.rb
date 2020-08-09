@@ -4,11 +4,11 @@ require_relative "account"
 class TestAccount < Minitest::Test
 
   def setup
-    @account = Account.new(:savings)
+    @account = Account.new("savings")
   end
 
   def test_initialize 
-    assert_equal :savings , @account.type
+    assert_equal "savings" , @account.type
   end
 
   def test_deposit_funds
