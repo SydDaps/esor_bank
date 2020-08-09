@@ -17,12 +17,11 @@ User class data : </br>
 
 
 Teller class data (inherit user data ): </br>
-&ensp; &ensp; &ensp; &ensp; &ensp; &ensp; &ensp; &ensp;- address  </br>
+
 
 Acount class data: </br>
-&ensp; &ensp; &ensp; &ensp; &ensp; &ensp; &ensp; &ensp;- type {saving.....}  </br>
+&ensp; &ensp; &ensp; &ensp; &ensp; &ensp; &ensp; &ensp;- type {saving / current}  </br>
 &ensp; &ensp; &ensp; &ensp; &ensp; &ensp; &ensp; &ensp;- balance </br>
-&ensp; &ensp; &ensp; &ensp; &ensp; &ensp; &ensp; &ensp;- transactions  { array of all transactions } </br>
 
 &ensp; &ensp; &ensp; &ensp; methods : </br>
 &ensp; &ensp; &ensp; &ensp; &ensp; &ensp; &ensp; &ensp; -doCrediting { credits account and returns message } </br>
