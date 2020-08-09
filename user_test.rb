@@ -5,9 +5,9 @@ class TestUser < Minitest::Test
   
   def setup
     @fields = {
-      :fName => "sydney",
-      :lName => "Daps",
-      :phoneNumber => "0246188069",
+      :first_name => "sydney",
+      :last_name => "Daps",
+      :phone_number => "0246188069",
       :age => 23,
       :address => "23-455-445"
     }
@@ -15,10 +15,10 @@ class TestUser < Minitest::Test
   end
 
   def test_initialize
-    assert_equal @fields[:fName] , @user.fName 
-    assert_equal @fields[:lName] , @user.lName
+    assert_equal @fields[:first_name] , @user.first_name
+    assert_equal @fields[:last_name] , @user.last_name
     assert_equal @fields[:age] , @user.age
-    assert_equal @fields[:phoneNumber] , @user.phoneNumber
+    assert_equal @fields[:phone_number] , @user.phone_number
     assert_equal @fields[:address] , @user.address
   end
 
