@@ -12,4 +12,9 @@ class Account
   def withdraw_funds(amount)
     @balance -= amount
   end
+
+  # def ==(other)
+  #   self.balance == other.balance &&
+  #   self.type == other.type
+  # end
 end

@@ -21,5 +21,4 @@ class TestTeller < Minitest::Test
     assert_equal @fields[:phone_number] , @teller.phone_number
     assert_equal @fields[:address] , @teller.address
   end
-
 end
