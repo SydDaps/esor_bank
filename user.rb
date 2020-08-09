@@ -8,5 +8,4 @@ class User
     @phone_number = fields[:phone_number]
     @address = fields[:address]
   end
-
 end
