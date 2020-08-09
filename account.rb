@@ -5,11 +5,11 @@ class Account
     @balance = 0.0
   end
 
-  def depositFunds(amount)
+  def deposit_funds(amount)
     @balance += amount
   end
 
-  def withdrawFunds(amount)
+  def withdraw_funds(amount)
     @balance -= amount
   end
 
