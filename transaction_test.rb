@@ -42,23 +42,33 @@ class TestCustomer < Minitest::Test
   end
 
   def test_withdrawal
-    message = <<~MESSAGE
-      Withdrawal of GHC 90.0 on Sydney savings account 
-      completed by Ama. New account balance : GHC -90.0
-    MESSAGE
+    # message = <<~MESSAGE
+    #   Withdrawal of GHC 90.0 on Sydney savings account 
+    #   completed by Ama. New account balance : GHC -90.0
+    # MESSAGE
+    @transaction.perform_transaction
 
-    assert_equal message ,  @transaction.do_transaction
+    assert_equal -90.0,  @transaction.customer.balance(:savings)
   end
 
   def test_deposit
-    @transaction.transaction_type = "deposit"
     
+    @transaction.transaction_type = "deposit"
+    @transaction.perform_transaction
+    
+    
+    assert_equal 90.0, @transaction.customer.balance(:savings)
+  end
+
+  def test_message
+    @transaction.transaction_type = "deposit"
+    @transaction.perform_transaction
     message = <<~MESSAGE
       Deposit of GHC 90.0 on Sydney savings account 
       completed by Ama. New account balance : GHC 90.0
     MESSAGE
-    
-    assert_equal message ,  @transaction.do_transaction
+
+    assert_equal message , @transaction.message
   end
 
 

@@ -11,7 +11,7 @@ class Transaction
     @account_type = fields[:account_type]
   end
 
-  def do_transaction
+  def perform_transaction
     if @transaction_type == "deposit"
       @oldBalance = @customer.balance(@account_type)
       @customer.account[@account_type].deposit_funds(@transaction_amount)
@@ -19,12 +19,13 @@ class Transaction
       @oldBalance = @customer.balance(@account_type)
       @customer.account[@account_type].withdraw_funds(@transaction_amount)
     end
+  end
 
+  def message
     message = <<~MESSAGE
       #{@transaction_type.capitalize} of GHC #{@transaction_amount.to_f} on #{@customer.first_name} #{@account_type} account 
       completed by #{@teller.first_name}. New account balance : GHC #{@customer.balance(@account_type).to_f}
     MESSAGE
-    
     return message
   end
 end
