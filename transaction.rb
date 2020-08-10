@@ -1,5 +1,5 @@
 require_relative "customer"
-require_relative "Teller"
+require_relative "teller"
 
 class Transaction
   attr_accessor :transaction_type, :customer, :teller, :transaction_amount, :account_type
