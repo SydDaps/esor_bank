@@ -31,16 +31,20 @@ class TestCustomer < Minitest::Test
     }
 
     #creating 2 different transactions 
+
     @vault = Vault.new()
+
     @transaction_details = {
       :type => "withdrawal",
       :customer => @customer_1,
       :teller  => Teller.new(@teller_fields),
       :account_type => :savings,
       :amount => 90,
+
       :vault => @vault
     }
     @transaction_1 = Transaction.new(@transaction_details)
+
     @transaction_details[:receiver] = @customer_2
     @transaction_2 = Transaction.new(@transaction_details)
   end
@@ -53,6 +57,7 @@ class TestCustomer < Minitest::Test
     assert_equal @transaction_details[:amount] , @transaction_1.amount
     assert_nil(@transaction_1.receiver)
     assert_equal @customer_2, @transaction_2.receiver
+
     assert_equal  @transaction_details[:vault] , @transaction_1.vault
     assert_equal  @transaction_details[:vault] , @transaction_2.vault
   end
@@ -64,6 +69,7 @@ class TestCustomer < Minitest::Test
     @transaction_1.generate
 
     assert_equal -50,  @customer_1.balance(:savings)
+
   end
 
   def test_deposit
@@ -73,6 +79,7 @@ class TestCustomer < Minitest::Test
   end
 
   def test_transfer
+
     
     #deposit of GHC 90 into customer_1 account 
     @transaction_1.type = "deposit"
@@ -81,6 +88,7 @@ class TestCustomer < Minitest::Test
     @transaction_2.type = "transfer"
     @transaction_2.amount = 50
     @transaction_2.do
+
    
     assert_equal 40.0, @customer_1.balance(:savings)
     assert_equal 50.0, @customer_2.balance(:savings)
@@ -89,10 +97,10 @@ class TestCustomer < Minitest::Test
   
 
   def test_deposit_message
-    
     @transaction_1.type = "deposit"
     @transaction_1.do
     @transaction_1.generate
+
     message = <<~MESSAGE
       Deposit of GHC 90.0 into Sydney's savings account completed by Ama. 
       Previous balance : GHC 0.0
@@ -102,10 +110,12 @@ class TestCustomer < Minitest::Test
   end
 
   def test_withdrawal_message
+
     
     @transaction_1.type = "withdrawal"
     @transaction_1.do
     @transaction_1.generate
+
     message = <<~MESSAGE
       Withdrawal of GHC 90.0 from Sydney's savings account completed by Ama. 
       Previous balance : GHC 0.0
@@ -116,11 +126,13 @@ class TestCustomer < Minitest::Test
 
   def test_transfer_message
     @transaction_1.type = "deposit"
+
     @transaction_1.do
     @transaction_2.type = "transfer"
     @transaction_2.amount = 50
     @transaction_2.do
     @transaction_2.generate
+
     message = <<~MESSAGE
       GHC 50.0 transferred from Sydney to Tom's savings account completed by Ama. 
       Previous balance : GHC 90.0

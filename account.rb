@@ -14,8 +14,8 @@ class Account
     @balance -= amount
   end
 
+
   def add(statement)
     @statement.push(statement)
   end
-
 end

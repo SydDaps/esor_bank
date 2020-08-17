@@ -2,7 +2,9 @@ require "minitest/autorun"
 require_relative "vault"
 
 
+
 class TestVault < Minitest::Test
+
   def setup
     @customer_fields = {
       :first_name => "Sydney",
@@ -36,17 +38,21 @@ class TestVault < Minitest::Test
     teller_2 = Teller.new(@teller_fields)
 
     #creating 2 different transactions 
+
     @vault = Vault.new()
+
     @transaction_details = {
       :type => "deposit",
       :customer => @customer_1,
       :teller  => Teller.new(@teller_fields),
       :account_type => :savings,
       :amount => 100,
+
       :vault => @vault
     }
 
     @transaction_1 = Transaction.new(@transaction_details)
+
     @transaction_details[:receiver] = @customer_2
     @transaction_details[:amount] = 40
     @transaction_details[:type] = "transfer"
@@ -67,6 +73,7 @@ class TestVault < Minitest::Test
     @transaction_details[:amount] = 200
     @transaction_details[:customer] = @customer_2
     @transaction_5 = Transaction.new(@transaction_details)
+
   end
 
   def test_initialize
@@ -118,6 +125,7 @@ class TestVault < Minitest::Test
 
     assert_equal statement , @customer_3.account[:savings].statement[0]
   end
+
 
 
 end
