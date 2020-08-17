@@ -6,5 +6,10 @@ class Vault < Account
     @records = []
     @balance = 0.0
   end
+
+  def add(statement)
+    @records.push(statement)
+  end
+ 
 end
 

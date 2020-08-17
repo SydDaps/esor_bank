@@ -7,5 +7,6 @@ class User
     @age = fields[:age]
     @phone_number = fields[:phone_number]
     @address = fields[:address]
+  
   end
 end
