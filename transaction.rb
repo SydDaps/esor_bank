@@ -1,6 +1,7 @@
 require_relative "customer"
 require_relative "teller"
 require_relative "vault"
+require_relative "error"
 
 
 class Transaction
@@ -16,16 +17,23 @@ class Transaction
   end
 
   def do
-    @old_balance = @customer.balance(@account_type)
-    if @type == "deposit"
-      @customer.account[@account_type].deposit(@amount)
-      @vault.deposit(@amount)
-    elsif @type == "withdrawal"
-      @customer.account[@account_type].withdraw(@amount)
-      @vault.withdraw(@amount)
-    elsif @type == "transfer"
-      @customer.account[@account_type].withdraw(@amount)
-      @receiver.account[@account_type].deposit(@amount)
+    begin
+      @old_balance = @customer.balance(@account_type)
+    
+      if @type == "deposit"
+        @customer.account[@account_type].deposit(@amount)
+        @vault.deposit(@amount)
+      elsif @type == "withdrawal"
+        raise TransactionError.new("Not enough funds to perform transaction", "insufficient_balance") if @old_balance < @amount
+        @customer.account[@account_type].withdraw(@amount)
+        @vault.withdraw(@amount)
+      elsif @type == "transfer"
+        raise TransactionError.new("Not enough funds to perform transaction", "") if @old_balance < @amount
+        @customer.account[@account_type].withdraw(@amount)
+        @receiver.account[@account_type].deposit(@amount)
+      end
+    rescue => e
+      puts e.message
     end
   end
 
