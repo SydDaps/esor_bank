@@ -1,5 +1,6 @@
 require_relative "customer"
 require_relative "teller"
+
 require_relative "vault"
 require_relative "error"
 
@@ -12,6 +13,7 @@ class Transaction
     @teller = fields[:teller]
     @amount = fields[:amount]
     @account_type = fields[:account_type]
+
     @vault = fields[:vault]
     @receiver = fields[:receiver] if fields[:receiver] 
   end
@@ -38,11 +40,13 @@ class Transaction
   end
 
   def generate
+
     if @type == "deposit" or @type == "withdrawal"
       action = "into"
       action = "from" if @type == "withdrawal"
       @message = <<~MESSAGE
         #{@type.capitalize} of GHC #{@amount.to_f} #{action} #{@customer.first_name}'s #{@account_type} account completed by #{@teller.first_name}. 
+
         Previous balance : GHC #{@old_balance}
         New balance : GHC #{@customer.balance(@account_type).to_f}
       MESSAGE
@@ -70,6 +74,7 @@ class Transaction
     STATEMENT
     @customer.account[@account_type].add(statement)
     @vault.add(self)
+
   end
 end
 
