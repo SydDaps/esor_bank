@@ -30,13 +30,16 @@ class TestCustomer < Minitest::Test
   end
 
   def test_check_balance_after_deposit
-    @customer.account[:savings].deposit_funds(90)
+
+    @customer.account[:savings].deposit(90)
     assert_equal 90 , @customer.balance(:savings)
   end
 
   def test_check_balance_after_withdrawal
-    @customer.account[:savings].deposit_funds(90)
-    @customer.account[:savings].withdraw_funds(40)
+
+    @customer.account[:savings].deposit(90)
+    @customer.account[:savings].withdraw(40)
+
     assert_equal 50 , @customer.balance(:savings)
   end
 end

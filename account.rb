@@ -1,20 +1,21 @@
 class Account
-  attr_accessor :type, :balance 
+  attr_accessor :type, :balance, :statement
   def initialize(type)
     @type = type
     @balance = 0.0
+    @statement = []
   end
 
-  def deposit_funds(amount)
+  def deposit(amount)
     @balance += amount
   end
 
-  def withdraw_funds(amount)
+  def withdraw(amount)
     @balance -= amount
   end
 
-  # def ==(other)
-  #   self.balance == other.balance &&
-  #   self.type == other.type
-  # end
+
+  def add(statement)
+    @statement.push(statement)
+  end
 end
