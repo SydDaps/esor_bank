@@ -1,5 +1,5 @@
 class User
-  attr_accessor :first_name, :last_name, :phone_number, :address, :age
+  attr_accessor :first_name, :last_name, :phone_number, :address, :age, :pin
 
   def initialize(fields)
     @first_name = fields[:first_name]
@@ -7,6 +7,6 @@ class User
     @age = fields[:age]
     @phone_number = fields[:phone_number]
     @address = fields[:address]
-  
+    @pin = fields[:pin]
   end
 end

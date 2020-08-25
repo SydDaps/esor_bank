@@ -4,9 +4,11 @@ require_relative "teller"
 require_relative "transaction"
 require_relative "vault"
 require_relative "error"
+require_relative "database"
 
 class TestCustomer < Minitest::Test
   def setup
+    @database = Database.instance
     #creating 2 customers 
     @customer_fields = {
       :first_name => "Sydney",
@@ -46,6 +48,10 @@ class TestCustomer < Minitest::Test
     @transaction_2 = Transaction.new(@transaction_details)
   end
 
+  def teardown
+    Transaction.class_variable_set(:@@transaction_id, 1001)
+  end
+
   def test_initialize 
     assert_equal @transaction_details[:type] , @transaction_1.type
     assert_equal @transaction_details[:customer] , @transaction_1.customer
@@ -59,13 +65,11 @@ class TestCustomer < Minitest::Test
   end
 
   def test_withdrawal
-    
-    assert_raises  TransactionError do 
-      @transaction_1.type = "withdrawal"
-      @transaction_1.amount = 50.0
-      @transaction_1.do
-      #assert_equal 0.0,  @customer_1.balance(:savings)
-    end
+    @transaction_1.type = "withdrawal"
+    @transaction_1.amount = 50.0
+    @transaction_1.do
+   
+    assert_equal 0.0,  @customer_1.balance(:savings)
   end
 
   def test_deposit
@@ -91,6 +95,7 @@ class TestCustomer < Minitest::Test
   
 
   def test_deposit_message
+    
     @transaction_1.type = "deposit"
     @transaction_1.do
     @transaction_1.generate
@@ -116,6 +121,7 @@ class TestCustomer < Minitest::Test
   end
 
   def test_transfer_message
+    
     @transaction_1.type = "deposit"
     @transaction_1.do
     @transaction_2.type = "transfer"
@@ -129,5 +135,31 @@ class TestCustomer < Minitest::Test
       New balance : GHC 40.0
     MESSAGE
     assert_equal message , @transaction_2.message
+  end
+
+  def test_transaction_create
+    Transaction.create(@transaction_details)
+    assert_equal Transaction , @database.database[:Transaction].last.class
+  end
+
+  def test_transaction_save
+    @transaction_1.save
+    assert_equal Transaction , @database.database[:Transaction].last.class
+  end
+
+  def test_find_transaction
+    transaction_1 = Transaction.create(@transaction_details)
+    transaction_2 = @transaction_1.save
+
+    assert_equal transaction_1 , Transaction.find(1003)
+    assert_equal transaction_2 , Transaction.find(1001)
+    assert_equal 0 , Transaction.find(1000)
+  end
+    
+  def test_delete_transaction
+    transaction_1 = Transaction.create(@transaction_details)
+    transaction_2 = @transaction_1.save
+    Transaction.delete(1003)
+    assert_equal 0 , Transaction.find(1003)
   end
 end

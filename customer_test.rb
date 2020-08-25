@@ -2,9 +2,12 @@ require "minitest/autorun"
 require_relative "user"
 require_relative "account"
 require_relative "customer"
+require_relative "database"
+
 
 class TestCustomer < Minitest::Test
   def setup
+    @database = Database.instance
     @fields = {
       :first_name => "sydney",
       :last_name => "Daps",
@@ -14,6 +17,10 @@ class TestCustomer < Minitest::Test
       :account => Account.new(:savings)
     }
     @customer = Customer.new(@fields)
+  end
+
+  def teardown 
+    Customer.class_variable_set(:@@customer_id, 1001)
   end
 
   def test_initialize 
@@ -39,4 +46,29 @@ class TestCustomer < Minitest::Test
     @customer.account[:savings].withdraw(40)
     assert_equal 50 , @customer.balance(:savings)
   end
+
+  def test_customer_create
+    Customer.create(@fields) 
+    assert_equal Customer, @database.database[:Customer].last.class
+  end
+
+  def test_customer_save
+    @customer.save()
+    assert_equal Customer , @database.database[:Customer].last.class
+  end
+
+  def test_find_customer_id
+    customer_1 = @customer.save()  
+    customer_2 = Customer.create(@fields)
+    assert_equal customer_1, Customer.find(1001)
+    assert_equal customer_2, Customer.find(1002)
+  end
+
+  def test_delete_customer
+    customer_1 = @customer.save()  
+    customer_2 = Customer.create(@fields)
+    Customer.delete(1001)
+    assert_equal 0 , Customer.find(1001)
+  end
+
 end

@@ -2,10 +2,17 @@ require_relative "customer"
 require_relative "teller"
 require_relative "vault"
 require_relative "error"
+require_relative "database"
+require_relative "query"
+
 
 
 class Transaction
-  attr_accessor :type, :customer, :teller, :amount, :account_type, :receiver, :message , :vault
+  include Query
+  extend Query
+
+  attr_accessor :type, :customer, :teller, :amount, :account_type, :receiver, :message , :vault, :id, :status
+  @@transaction_id = 1001
   def initialize(fields)
     @type = fields[:type]
     @customer = fields[:customer]
@@ -14,12 +21,14 @@ class Transaction
     @account_type = fields[:account_type]
     @vault = fields[:vault]
     @receiver = fields[:receiver] if fields[:receiver] 
+    @id = @@transaction_id
+    @@transaction_id += 1
+    @status = "Pending"
   end
 
   def do
     begin
       @old_balance = @customer.balance(@account_type)
-    
       if @type == "deposit"
         @customer.account[@account_type].deposit(@amount)
         @vault.deposit(@amount)
@@ -28,12 +37,12 @@ class Transaction
         @customer.account[@account_type].withdraw(@amount)
         @vault.withdraw(@amount)
       elsif @type == "transfer"
-        raise TransactionError.new("Not enough funds to perform transaction", "") if @old_balance < @amount
+        raise TransactionError.new("Not enough funds to perform transaction", "insufficient_balance") if @old_balance < @amount
         @customer.account[@account_type].withdraw(@amount)
         @receiver.account[@account_type].deposit(@amount)
       end
-    rescue => e
-      puts e.message
+    rescue TransactionError => e
+      return e
     end
   end
 
@@ -56,7 +65,7 @@ class Transaction
       MESSAGE
       receiver_statement = <<~STATEMENT
       ------------------------------------------------
-        DATE #{@type.capitalize} Amount : #{@amount.to_f} by #{@teller.first_name} 
+        DATE received Amount : #{@amount.to_f} by #{@teller.first_name} 
         Balance : #{@receiver.balance(@account_type).to_f}
       ------------------------------------------------  
       STATEMENT
