@@ -8,22 +8,25 @@ class Customer < User
   extend Query
 
   attr_accessor :account, :database, :id, :customer_id
-  @@customer_id = 1001
-  
+
   def initialize(fields)
     super
-    @account = {fields[:account].type => fields[:account]}
-    @id = @@customer_id
-    @@customer_id += 1
-  end
-
-  def balance(type)
-    @account[type].balance
   end
 end
 
+fields = {
+  :first_name => "kweku",
+  :last_name => "Daps",
+  :phone_number => "2222222222",
+  :age => 23,
+  :address => "23-455-445",
+  
+}
 
-
-
+hash_field = {
+  :phone_number => 2222222222
+}
+#Customer.create(fields)
+#print Customer.find(hash_field)
     
    

@@ -1,21 +1,26 @@
+require_relative "query"
+
 class Account
-  attr_accessor :type, :balance, :statement
-  def initialize(type)
-    @type = type
-    @balance = 0.0
-    @statement = []
+  include Query
+  extend Query
+
+  attr_accessor :type, :id
+  def initialize(field)
+    @type = field[:type]
+    @balance = field[:balance]
+    @id =  field[:id]
   end
 
-  def deposit(amount)
-    @balance += amount
-  end
+  # def deposit(amount)
+  #   @balance += amount
+  # end
 
-  def withdraw(amount)
-    @balance -= amount
-  end
+  # def withdraw(amount)
+  #   @balance -= amount
+  # end
 
-  def add(statement)
-    @statement.push(statement)
-  end
+  # def add(statement)
+  #   @statement.push(statement)
+  # end
 
 end

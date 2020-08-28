@@ -8,14 +8,13 @@ class Teller < User
   extend Query
 
   attr_reader :id
-  @@teller_id = 1001
+  
   def initialize(fields)
     super
-    @id =  @@teller_id
-    @@teller_id += 1
   end
 
 end
+
 
 
 

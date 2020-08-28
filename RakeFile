@@ -4,4 +4,9 @@ Rake::TestTask.new(:test) do |t|
   t.test_files = FileList["*_test.rb"]
 end
 
+desc "Run migrations"
+task :run_migration do
+  Dir.glob("#{File.dirname(__FILE__)}/migrations/*").each {|file| require file}
+end
+
 task :default => :test

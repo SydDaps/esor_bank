@@ -11,19 +11,16 @@ class Transaction
   include Query
   extend Query
 
-  attr_accessor :type, :customer, :teller, :amount, :account_type, :receiver, :message , :vault, :id, :status
-  @@transaction_id = 1001
+  attr_accessor :type, :customer_id, :teller_id, :amount, :recipient_id, :status, :account_id
+ 
   def initialize(fields)
     @type = fields[:type]
-    @customer = fields[:customer]
-    @teller = fields[:teller]
+    @customer_id = fields[:customer_id]
+    @teller_id = fields[:teller_id]
     @amount = fields[:amount]
-    @account_type = fields[:account_type]
-    @vault = fields[:vault]
-    @receiver = fields[:receiver] if fields[:receiver] 
-    @id = @@transaction_id
-    @@transaction_id += 1
-    @status = "Pending"
+    @recipient_id = fields[:recipient_id] if fields[:recipient_id] 
+    @id = fields[:id]
+    @status = fields[:status]
   end
 
   def do

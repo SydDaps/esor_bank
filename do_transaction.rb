@@ -85,7 +85,7 @@ module DoTransactions
         error = transaction.do
         if error.class == TransactionError
           puts error.message
-          transaction.status = "Failed"
+          transaction.status  = "Failed"
         else
           transaction.generate
           transaction.status = "Success"
